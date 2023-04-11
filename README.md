@@ -1,16 +1,16 @@
-# ecjtu_library
+# 华交微图
+华交微图是一款基于Flutter开发的应用程序，旨在帮助用户跳过校园网的网关验证，实现进入在线图书馆位置预约和扫码签到的功能。
 
-A new Flutter project.
+## 功能
++ 跳过校园网的网关验证
++ 在线图书馆位置预约
++ 扫码签到
+## 开源协议
+本项目采用MIT开源协议进行授权。
 
-## Getting Started
+## 数据存储
+认证信息将存储在本地，确保用户可以快速访问在线图书馆位置预约和扫码签到功能。
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 注意事项
++ 首次登录进图书馆后，请点击几个页面以保证本地存入认证信息。
++ 如果认证掉了，请强制关闭应用再重新打开。
