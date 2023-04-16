@@ -87,9 +87,11 @@ class _WebviewPageState extends State<WebviewPage> {
                 }
               }
             });
+            String loginNewJs =
+                'document.getElementById("user_name").value = "${_stateUtil.loginForm["username"]}";document.querySelector("input[name=\'password\']").value = "${_stateUtil.loginForm["password"]}";document.querySelector(".el-button-login").click();';
+            print(loginNewJs);
             webViewController
-                .runJavaScriptReturningResult(
-                    'document.getElementById("user_name").value = "${_stateUtil.loginForm["username"]}";document.querySelector("input[name="password"]").value = "${_stateUtil.loginForm["password"]}";document.querySelector(".el-button-login").click();')
+                .runJavaScriptReturningResult(loginNewJs)
                 .then((resp) {
               if (!resp.toString().contains('Error')) {
                 if (!isShowSnackbar) {
