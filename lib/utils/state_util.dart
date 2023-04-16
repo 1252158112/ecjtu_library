@@ -9,6 +9,7 @@ class StateUtil extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   late Map loginForm;
+  List likeSeat = [];
   String link = '';
   String cookie = '';
   String signLink = '';
@@ -31,6 +32,18 @@ class StateUtil extends GetxController {
     hasLoginForm(true);
   }
 
+  getLikeSeat() async {
+    var prefs = await _prefs;
+    // print(prefs.getString(LIKE_SEAT_PATH));
+    likeSeat = jsonDecode(prefs.getString(LIKE_SEAT_PATH) ?? '');
+  }
+
+  setLikeSeat() async {
+    var prefs = await _prefs;
+    // print(jsonEncode(likeSeat));
+    prefs.setString(LIKE_SEAT_PATH, jsonEncode(likeSeat));
+  }
+
   @override
   void onInit() {
     getLocalForm().then((value) {
@@ -39,7 +52,7 @@ class StateUtil extends GetxController {
       }
       loginForm = value ?? {};
     });
-
+    getLikeSeat();
     super.onInit();
   }
 }

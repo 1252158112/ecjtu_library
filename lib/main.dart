@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:ecjtu_library/pages/ScanPage.dart';
 import 'package:ecjtu_library/pages/SignSeatPage.dart';
+import 'package:ecjtu_library/pages/UpdateInfoPage.dart';
 import 'package:ecjtu_library/pages/WebviewPage.dart';
 import 'package:ecjtu_library/utils/state_util.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,10 @@ class MyApp extends StatelessWidget {
             GetPage(
               name: '/signSeat',
               page: () => SignSeatPage(),
+            ),
+            GetPage(
+              name: '/updateInfo',
+              page: () => UpdateInfoPage(),
             ),
           ],
           darkTheme: ThemeData.dark(useMaterial3: true),

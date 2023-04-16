@@ -12,6 +12,7 @@ class WebviewPage extends StatefulWidget {
 class _WebviewPageState extends State<WebviewPage> {
   final StateUtil _stateUtil = Get.find();
   int progress = 0;
+  bool isShowSnackbar = false;
   late WebViewController webViewController;
 
   @override
@@ -19,7 +20,6 @@ class _WebviewPageState extends State<WebviewPage> {
     super.initState();
     webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      // ..setBackgroundColor(Theme.of(context).colorScheme.background)
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -28,8 +28,7 @@ class _WebviewPageState extends State<WebviewPage> {
               this.progress = progress;
             });
           },
-          onPageFinished: (String url) {
-            // 在页面加载完成后添加其他 header
+          onPageStarted: (url) {
             final WebViewCookieManager cookieManager = WebViewCookieManager();
 
             final cookieRegex =
@@ -66,6 +65,39 @@ class _WebviewPageState extends State<WebviewPage> {
                 );
               }
             }
+          },
+          onPageFinished: (String url) async {
+            webViewController
+                .runJavaScriptReturningResult(
+                    'document.documentElement.innerHTML.indexOf("服务器错误") !== -1')
+                .then((value) {
+              if (value.toString().contains('true')) {
+                webViewController.reload();
+              }
+            });
+
+            webViewController
+                .runJavaScriptReturningResult(
+                    'document.getElementById("username").value = "${_stateUtil.loginForm["username"]}";document.getElementById("password").value = "${_stateUtil.loginForm["password"]}";submitInfo();')
+                .then((resp) {
+              if (!resp.toString().contains('Error')) {
+                if (!isShowSnackbar) {
+                  isShowSnackbar = true;
+                  // Get.snackbar('提示', '检查到cookie失效,自动通过');
+                }
+              }
+            });
+            webViewController
+                .runJavaScriptReturningResult(
+                    'document.getElementById("user_name").value = "${_stateUtil.loginForm["username"]}";document.querySelector("input[name="password"]").value = "${_stateUtil.loginForm["password"]}";document.querySelector(".el-button-login").click();')
+                .then((resp) {
+              if (!resp.toString().contains('Error')) {
+                if (!isShowSnackbar) {
+                  isShowSnackbar = true;
+                  // Get.snackbar('提示', '检查到cookie失效,自动通过');
+                }
+              }
+            });
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {

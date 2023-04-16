@@ -90,27 +90,27 @@ class _SignSeatPageState extends State<SignSeatPage> {
                   '前往签到',
                   style: TextStyle(fontSize: 17),
                 )),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(children: [
-          Expanded(
-            child: Row(
-              children: [
-                // FilledButton.icon(
-                //     onPressed: loading ? null : passCheck,
-                //     icon: const Icon(Icons.insert_page_break_rounded),
-                //     label: const Text('过校验'))
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: DEFAULT_PADDING / 2,
-          ),
-          FilledButton.icon(
-              onPressed: loading ? null : passCheck,
-              icon: const Icon(Icons.insert_page_break_rounded),
-              label: const Text('过校验'))
-        ]),
-      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   child: Row(children: [
+      //     Expanded(
+      //       child: Row(
+      //         children: [
+      //           // FilledButton.icon(
+      //           //     onPressed: loading ? null : passCheck,
+      //           //     icon: const Icon(Icons.insert_page_break_rounded),
+      //           //     label: const Text('过校验'))
+      //         ],
+      //       ),
+      //     ),
+      //     const SizedBox(
+      //       height: DEFAULT_PADDING / 2,
+      //     ),
+      //     FilledButton.icon(
+      //         onPressed: loading ? null : passCheck,
+      //         icon: const Icon(Icons.insert_page_break_rounded),
+      //         label: const Text('过校验'))
+      //   ]),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(DEFAULT_PADDING / 2),
         child: ListView(

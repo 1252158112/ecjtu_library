@@ -77,44 +77,73 @@ class _HomePageState extends State<HomePage> {
         title: const Text('图书馆工具'),
         actions: [
           IconButton(
-              onPressed: () {
-                setState(() {
-                  Get.changeTheme(
-                    Get.isDarkMode
-                        ? ThemeData.light(useMaterial3: true)
-                        : ThemeData.dark(useMaterial3: true),
-                  );
+            onPressed: () {
+              setState(() {
+                Get.changeTheme(
+                  Get.isDarkMode
+                      ? ThemeData.light(useMaterial3: true)
+                      : ThemeData.dark(useMaterial3: true),
+                );
 
-                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                      systemNavigationBarColor:
-                          Theme.of(context).colorScheme.inverseSurface));
-                });
-              },
-              icon: Get.isDarkMode
-                  ? const Icon(Icons.dark_mode_rounded)
-                  : const Icon(Icons.light_mode_rounded))
+                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                    systemNavigationBarColor:
+                        Theme.of(context).colorScheme.inverseSurface));
+              });
+            },
+            icon: Get.isDarkMode
+                ? const Icon(Icons.dark_mode_rounded)
+                : const Icon(Icons.light_mode_rounded),
+          ),
+          IconButton(
+            onPressed: () {
+              Get.toNamed('updateInfo');
+            },
+            icon: const Icon(Icons.info),
+          )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          extendedIconLabelSpacing: 10,
-          extendedPadding: const EdgeInsets.all(DEFAULT_PADDING),
-          heroTag: 'toWebview',
-          onPressed: getToken
-              ? () {
-                  _stateUtil.link = link;
-                  _stateUtil.cookie = cookies;
-
-                  Get.snackbar('提示', '由于安全权限问题，首次进入需要手动登录智慧交大');
-                  Get.toNamed('/webview');
-                }
-              : null,
-          label: const Icon(
-            Icons.arrow_forward_ios_rounded,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            extendedIconLabelSpacing: 10,
+            extendedPadding: const EdgeInsets.all(DEFAULT_PADDING),
+            heroTag: 'toWebview',
+            onPressed: getToken
+                ? () {
+                    _stateUtil.link = link;
+                    _stateUtil.cookie = cookies;
+                    Get.toNamed('/webview');
+                  }
+                : null,
+            label: const Icon(
+              Icons.arrow_forward_ios_rounded,
+            ),
+            icon: const Text(
+              '座位预约',
+              style: TextStyle(fontSize: 17),
+            ),
           ),
-          icon: const Text(
-            '进入图书馆',
-            style: TextStyle(fontSize: 17),
-          )),
+          const SizedBox(
+            height: DEFAULT_PADDING,
+          ),
+          FloatingActionButton.extended(
+            extendedIconLabelSpacing: 10,
+            extendedPadding: const EdgeInsets.all(DEFAULT_PADDING),
+            onPressed: loading || !_stateUtil.hasLoginForm()
+                ? null
+                : () {
+                    Get.toNamed('/scan');
+                  },
+            label: const Icon(Icons.qr_code_2_rounded),
+            icon: const Text(
+              '签到',
+              style: TextStyle(fontSize: 17),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(children: [
           Expanded(
@@ -165,12 +194,6 @@ class _HomePageState extends State<HomePage> {
                     },
                     icon: const Icon(Icons.login_rounded),
                     label: const Text('登录')),
-                FilledButton.icon(
-                    onPressed: loading || !_stateUtil.hasLoginForm()
-                        ? null
-                        : passCheck,
-                    icon: const Icon(Icons.insert_page_break_rounded),
-                    label: const Text('过校验'))
               ],
             ),
           ),
@@ -178,13 +201,10 @@ class _HomePageState extends State<HomePage> {
             height: DEFAULT_PADDING / 2,
           ),
           FilledButton.icon(
-              onPressed: loading || !_stateUtil.hasLoginForm()
-                  ? null
-                  : () {
-                      Get.toNamed('/scan');
-                    },
-              icon: const Icon(Icons.qr_code_2_rounded),
-              label: const Text('扫描座位'))
+              onPressed:
+                  loading || !_stateUtil.hasLoginForm() ? null : passCheck,
+              icon: const Icon(Icons.insert_page_break_rounded),
+              label: const Text('过校验'))
         ]),
       ),
       body: Padding(
