@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ecjtu_library/constants.dart';
+import 'package:flutter_shortcuts/flutter_shortcuts.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +9,7 @@ class StateUtil extends GetxController {
   // 本地存储
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  final FlutterShortcuts flutterShortcuts = Get.find();
   late Map loginForm;
   List likeSeat = [];
   String link = '';
@@ -34,14 +36,37 @@ class StateUtil extends GetxController {
 
   getLikeSeat() async {
     var prefs = await _prefs;
-    // print(prefs.getString(LIKE_SEAT_PATH));
-    likeSeat = jsonDecode(prefs.getString(LIKE_SEAT_PATH) ?? '');
+    likeSeat = jsonDecode(prefs.getString(LIKE_SEAT_PATH) ?? '[]');
   }
 
   setLikeSeat() async {
     var prefs = await _prefs;
     // print(jsonEncode(likeSeat));
     prefs.setString(LIKE_SEAT_PATH, jsonEncode(likeSeat));
+  }
+
+  void initShortcuts() async {
+    var prefs = await _prefs;
+    bool isInit = prefs.getBool(SHORT_CUTS_PATH) ?? false;
+    if (isInit) {
+      prefs.setBool(SHORT_CUTS_PATH, true);
+      flutterShortcuts.setShortcutItems(
+        shortcutItems: <ShortcutItem>[
+          const ShortcutItem(
+            id: "1",
+            action: 'toScanPage',
+            shortLabel: '扫码签到',
+            icon: 'assets/icons/qr-code.png',
+          ),
+          const ShortcutItem(
+            id: "2",
+            action: 'toScanPage',
+            shortLabel: '无最近签到',
+            icon: 'assets/icons/bag.png',
+          ),
+        ],
+      );
+    }
   }
 
   @override
@@ -53,6 +78,7 @@ class StateUtil extends GetxController {
       loginForm = value ?? {};
     });
     getLikeSeat();
+    initShortcuts();
     super.onInit();
   }
 }

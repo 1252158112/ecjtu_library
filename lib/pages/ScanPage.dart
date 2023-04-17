@@ -4,6 +4,7 @@ import 'package:ecjtu_library/constants.dart';
 import 'package:ecjtu_library/utils/state_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_shortcuts/flutter_shortcuts.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -16,6 +17,7 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   final StateUtil _stateUtil = Get.find();
+  final FlutterShortcuts flutterShortcuts = Get.find();
   bool isGet = false;
   final TextEditingController textController = TextEditingController();
   MobileScannerController cameraController = MobileScannerController();
@@ -40,7 +42,17 @@ class _ScanPageState extends State<ScanPage> {
           label: Text(
             i['info'],
           ),
-          onPressed: () => jump(i['link']),
+          onPressed: () {
+            flutterShortcuts.updateShortcutItem(
+              shortcut: ShortcutItem(
+                id: "2",
+                action: 'toSignSeat@@@${i["link"]}',
+                shortLabel: '收藏座位${i["info"]}',
+                icon: 'assets/icons/bag.png',
+              ),
+            );
+            jump(i['link']);
+          },
         ),
       );
     }
@@ -166,6 +178,15 @@ class _ScanPageState extends State<ScanPage> {
                             ),
                           ),
                           onConfirm: () {
+                            flutterShortcuts.updateShortcutItem(
+                              shortcut: ShortcutItem(
+                                id: "2",
+                                action:
+                                    'toSignSeat@@@${barcode.rawValue ?? ''}',
+                                shortLabel: '收藏座位${textController.text}',
+                                icon: 'assets/icons/bag.png',
+                              ),
+                            );
                             _stateUtil.likeSeat.add({
                               'info': textController.text,
                               'link': barcode.rawValue ?? ''

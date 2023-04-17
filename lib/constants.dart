@@ -6,6 +6,7 @@ const Color SEED = Colors.blue;
 
 const String USER_PATH = 'user_form';
 const String LIKE_SEAT_PATH = 'like_seat';
+const String SHORT_CUTS_PATH = 'shortcuts_init';
 
 const String API_NETWORK_CHECK_PREFIX = 'https://rz.ecjtu.edu.cn';
 const String API_TO_NETWORK_CHECK =

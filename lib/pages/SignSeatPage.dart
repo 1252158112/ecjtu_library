@@ -40,7 +40,7 @@ class _SignSeatPageState extends State<SignSeatPage> {
       getToken = false;
       loading = true;
     });
-
+    // await _httpUtil.passNetworkCheck(username, password);
     var ret = await _httpUtil.passSeatCheck(username, password, signLink);
     if (ret[0] == '' || ret[1] == '') {
       Get.snackbar('错误', '服务器异常或账号密码错误');

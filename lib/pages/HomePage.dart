@@ -6,6 +6,7 @@ import 'package:ecjtu_library/utils/http_util.dart';
 import 'package:ecjtu_library/utils/state_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_shortcuts/flutter_shortcuts.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HttpUtil _httpUtil = Get.find();
   final StateUtil _stateUtil = Get.find();
+
+  final FlutterShortcuts flutterShortcuts = Get.find();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool loading = false;
@@ -43,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   void passCheck() async {
     if (loading) {
-      Get.snackbar('提示', '正在过校验');
+      // Get.snackbar('提示', '正在过校验');
       return;
     }
     getToken = false;
@@ -79,11 +82,16 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () {
               setState(() {
-                Get.changeTheme(
-                  Get.isDarkMode
-                      ? ThemeData.light(useMaterial3: true)
-                      : ThemeData.dark(useMaterial3: true),
-                );
+                print(Get.isDarkMode);
+                if (Get.isDarkMode) {
+                  Get.changeTheme(
+                    ThemeData.light(useMaterial3: true),
+                  );
+                } else {
+                  Get.changeTheme(
+                    ThemeData.dark(useMaterial3: true),
+                  );
+                }
 
                 SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
                     systemNavigationBarColor:
@@ -99,7 +107,13 @@ class _HomePageState extends State<HomePage> {
               Get.toNamed('updateInfo');
             },
             icon: const Icon(Icons.info),
-          )
+          ),
+          // IconButton(
+          //   onPressed: () {
+
+          //   },
+          //   icon: const Icon(Icons.shortcut_rounded),
+          // )
         ],
       ),
       floatingActionButton: Column(

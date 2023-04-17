@@ -20,6 +20,10 @@ class UpdateInfoPage extends StatelessWidget {
         '2.优化网关验证过期时自动通过验证',
         '3.修改主页布局，将签到与预约置于同一层级'
       ]
+    },
+    {
+      'version': 'v1.0.3',
+      'detail': ['1.添加ShortCuts']
     }
   ];
   @override
